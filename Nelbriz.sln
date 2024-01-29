@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NelbrizWeb_Server", "NelbrizWeb_Server\NelbrizWeb_Server.csproj", "{373C5E8D-967D-43D8-989D-50829E9DCE6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NelbrizWeb_Server", "NelbrizWeb_Server\NelbrizWeb_Server.csproj", "{373C5E8D-967D-43D8-989D-50829E9DCE6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NelbrizWeb_Client", "NelbrizWeb_Client\NelbrizWeb_Client.csproj", "{AC299D81-F3DD-4BBE-880A-5E4F7E5649ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nelbriz_Models", "Nelbriz_Models\Nelbriz_Models.csproj", "{BA07F064-230F-48C1-A485-8F7F40324CB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nelbriz_Business", "Nelbriz_Business\Nelbriz_Business.csproj", "{23C28EB1-8430-4D5C-BE12-74D6BA2EAFC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nelbriz_Common", "Nelbriz_Common\Nelbriz_Common.csproj", "{923FF246-487A-4133-B13B-E9968F535833}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nelbriz_DataAccess", "Nelbriz_DataAccess\Nelbriz_DataAccess.csproj", "{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{373C5E8D-967D-43D8-989D-50829E9DCE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{373C5E8D-967D-43D8-989D-50829E9DCE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{373C5E8D-967D-43D8-989D-50829E9DCE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC299D81-F3DD-4BBE-880A-5E4F7E5649ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC299D81-F3DD-4BBE-880A-5E4F7E5649ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC299D81-F3DD-4BBE-880A-5E4F7E5649ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC299D81-F3DD-4BBE-880A-5E4F7E5649ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA07F064-230F-48C1-A485-8F7F40324CB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA07F064-230F-48C1-A485-8F7F40324CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA07F064-230F-48C1-A485-8F7F40324CB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA07F064-230F-48C1-A485-8F7F40324CB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C28EB1-8430-4D5C-BE12-74D6BA2EAFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C28EB1-8430-4D5C-BE12-74D6BA2EAFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C28EB1-8430-4D5C-BE12-74D6BA2EAFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C28EB1-8430-4D5C-BE12-74D6BA2EAFC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{923FF246-487A-4133-B13B-E9968F535833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{923FF246-487A-4133-B13B-E9968F535833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{923FF246-487A-4133-B13B-E9968F535833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{923FF246-487A-4133-B13B-E9968F535833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

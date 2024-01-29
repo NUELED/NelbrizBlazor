@@ -6,4 +6,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.26">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.26" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="24.1.47" />
+    <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="24.1.47" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="24.1.47" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nelbriz_Business\Nelbriz_Business.csproj" />
+    <ProjectReference Include="..\Nelbriz_DataAccess\Nelbriz_DataAccess.csproj" />
+    <ProjectReference Include="..\Nelbriz_Models\Nelbriz_Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\product\" />
+  </ItemGroup>
+
 </Project>
