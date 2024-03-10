@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Nelbriz_DataAccess\Nelbriz_DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -48,18 +48,23 @@ namespace Nelbriz_Business.Repository
 
         public async Task<ProductDTO> Get(int id)
         {
-            var obj = await _db.Products.Include(u=>u.Category).FirstOrDefaultAsync(c => c.Id == id);
+            var obj = await _db.Products.Include(u=>u.Category).Include(u => u.ProductPrices).FirstOrDefaultAsync(c => c.Id == id);
+            //if (obj != null)
+            //{
+            //   return _mapper.Map<Product, ProductDTO>(obj);
+            //}
             if (obj != null)
             {
-               return _mapper.Map<Product, ProductDTO>(obj);
+                return _mapper.Map<ProductDTO>(obj);
             }
             return new ProductDTO();
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
-        {
-         
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(_db.Products.Include(u => u.Category));   
+        {      
+            var obj = await _db.Products.Include(u => u.Category).Include(u=> u.ProductPrices).ToListAsync();    
+            //  return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(_db.Products.Include(u => u.Category));             
+            return _mapper.Map<IEnumerable<ProductDTO>>(obj);          
         }
 
         public async Task<ProductDTO> Update(ProductDTO objDTO)

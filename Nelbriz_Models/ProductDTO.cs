@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nelbriz_DataAccess;
+using System.Text.Json.Serialization;
 
 namespace Nelbriz_Models
 {
@@ -20,8 +22,8 @@ namespace Nelbriz_Models
         public string Color { get; set; }
         public string ImageUrl { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category")]    
-        public int CategoryId { get; set; }
-        
+        public int CategoryId { get; set; }      
         public CategoryDTO Category { get; set; }
+        public ICollection<ProductPriceDTO> ProductPrices { get; set; }
     }
 }

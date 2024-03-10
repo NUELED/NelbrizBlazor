@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nelbriz_Common", "Nelbriz_C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nelbriz_DataAccess", "Nelbriz_DataAccess\Nelbriz_DataAccess.csproj", "{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NelbrizWeb_Api", "NelbrizWeb_Api\NelbrizWeb_Api.csproj", "{ABF95E89-76C1-46FC-A909-DB47781E1BCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFBEFA9F-58DB-435E-9725-AB461C05CF0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF95E89-76C1-46FC-A909-DB47781E1BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF95E89-76C1-46FC-A909-DB47781E1BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF95E89-76C1-46FC-A909-DB47781E1BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF95E89-76C1-46FC-A909-DB47781E1BCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

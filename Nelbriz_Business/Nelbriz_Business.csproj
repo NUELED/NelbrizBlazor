@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Nelbriz_Common\Nelbriz_Common.csproj" />
     <ProjectReference Include="..\Nelbriz_DataAccess\Nelbriz_DataAccess.csproj" />
     <ProjectReference Include="..\Nelbriz_Models\Nelbriz_Models.csproj" />
   </ItemGroup>
