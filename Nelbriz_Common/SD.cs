@@ -17,5 +17,9 @@ namespace Nelbriz_Common
         public const string Status_Cancelled = "Cancelled";
 
 
+        public const string Role_Admin = "Admin";
+        public const string Role_Customer = "Customer";
+
+
     }
 }

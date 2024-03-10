@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nelbriz_DataAccess
+namespace Nelbriz_Models
 {
     public class OrderHeaderDTO
     {
@@ -48,6 +48,9 @@ namespace Nelbriz_DataAccess
         [Required]
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
 
     }

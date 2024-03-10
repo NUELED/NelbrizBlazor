@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nelbriz_Models;
 
-namespace Nelbriz_DataAccess
+namespace Nelbriz_Models
 {
     public class OrderDetailDTO
     {
