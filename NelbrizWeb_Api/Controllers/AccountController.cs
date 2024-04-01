@@ -47,7 +47,7 @@ namespace NelbrizWeb_Api.Controllers
 
             var user = new ApplicationUser
             {
-                UserName = signUpRequestDTO.Name,
+                UserName = signUpRequestDTO.Email,
                 Email = signUpRequestDTO.Email, 
                 Name = signUpRequestDTO.Name,
                 PhoneNumber = signUpRequestDTO.PhoneNumber, 
@@ -140,7 +140,7 @@ namespace NelbrizWeb_Api.Controllers
                 });
             }
          
-            return StatusCode(201);
+           // return StatusCode(201);
         }
 
         private SigningCredentials GetSigningCredentials()
