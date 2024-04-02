@@ -12,7 +12,7 @@ namespace Nelbriz_Models
      
         public int Id { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public int UserId { get; set; } //i changed this to a string. NB!!
 
         [Required]
         [Display(Name = "Order Total")]

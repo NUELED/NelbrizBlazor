@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nelbriz_Models;
 using NelbrizWeb_Client.Service.IService;
+using System.Web;
 
 namespace NelbrizWeb_Client.Pages.Authentication
 {
@@ -11,6 +12,7 @@ namespace NelbrizWeb_Client.Pages.Authentication
         public bool IsProcessing { get; set; } = false;
         public bool ShowSignInErrors { get; set; }
         public string Errors { get; set; }
+        public string ReturnUrl { get; set; }
 
         [Inject]
         public IAuthenticationService _authService { get; set; }
@@ -28,7 +30,18 @@ namespace NelbrizWeb_Client.Pages.Authentication
             if (result.IsAuthSuccessfull)
             {
                 //registration is successfull
-                _navigationManager.NavigateTo("/");
+                var absoluteUri = new Uri(_navigationManager.Uri);
+                var querryParam = HttpUtility.ParseQueryString(absoluteUri.Query);
+                ReturnUrl = querryParam["returnUrl"];
+                if(string.IsNullOrEmpty(ReturnUrl)) 
+                {
+                    _navigationManager.NavigateTo("/");
+                }
+                else
+                {
+                    _navigationManager.NavigateTo("/" + ReturnUrl);
+                }
+               
             }
             else
             {
