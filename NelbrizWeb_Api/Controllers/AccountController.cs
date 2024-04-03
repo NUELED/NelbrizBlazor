@@ -7,6 +7,8 @@ using Nelbriz_Common;
 using Nelbriz_DataAccess;
 using Nelbriz_Models;
 using NelbrizWeb_Api.Helper;
+using NelbrizWeb_Api.Logging;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -21,6 +23,8 @@ namespace NelbrizWeb_Api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly APISettings _aPISettings;
+        private readonly ILogger<AccountController>  _logger;
+        private readonly ILogging _customLogger; //For testing Sake
 
 
 
@@ -28,12 +32,16 @@ namespace NelbrizWeb_Api.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
              RoleManager<IdentityRole> roleManager,
-             IOptions<APISettings> options)
+             IOptions<APISettings> options,
+             ILogger<AccountController> logger,
+             ILogging customLogger)
         {
             _userManager = userManager;
-            _signInManager = signInManager;      
+            _signInManager = signInManager;
             _roleManager = roleManager;
             _aPISettings = options.Value;
+            _logger = logger;
+            _customLogger = customLogger;
         }
 
 
@@ -65,6 +73,8 @@ namespace NelbrizWeb_Api.Controllers
                 }); 
             }
 
+            _customLogger.Log("Adding a role to the newly created User", ""); // Just for testing
+            _logger.LogInformation("Adding a role to the newly created User");
             var roleResult = await _userManager.AddToRoleAsync(user, SD.Role_Customer);
             if (!roleResult.Succeeded)
             {
@@ -117,6 +127,8 @@ namespace NelbrizWeb_Api.Controllers
 
                 var tokens = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
+             
+                _logger.LogInformation("returning the user details and the token.");
                 return Ok(new SignInResponseDTO()
                 {
                      IsAuthSuccessfull= true,
@@ -133,6 +145,8 @@ namespace NelbrizWeb_Api.Controllers
             }
             else
             {
+                _customLogger.Log2("Oops........There was an issue authorizing at this point.", "error"); // Just for testing
+                _logger.LogError("There was an issue authorizing at this point.");
                 return Unauthorized(new SignInResponseDTO()
                 {
                     IsAuthSuccessfull = false,
