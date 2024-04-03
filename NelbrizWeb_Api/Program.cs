@@ -9,10 +9,14 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File("logs/nelbrizlogs.txt",rollingInterval:RollingInterval.Day).CreateLogger();
+builder.Host.UseSerilog( (context, config) => { config.Enrich.FromLogContext().WriteTo.Console().ReadFrom.Configuration(context.Configuration); });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
