@@ -27,7 +27,7 @@ namespace NelbrizWeb_Api.Controllers
             string keyString = "ThisIsASecretKey1234567890";  
             byte[] key = GenerateKey(keyString);
 
-            //Below is the iv. Gotten from an IV generator enpoint below.
+            //The iv. Gotten from an IV generator enpoint below.
             string base64String = "E6bq398ehjA=";
             byte[] iv = Convert.FromBase64String(base64String); 
 
@@ -43,7 +43,7 @@ namespace NelbrizWeb_Api.Controllers
         [HttpGet("IV")]
         public async Task<IActionResult> GenerateIV()
         {
-            byte[] iv = new byte[8]; // 8 bytes for TripleDES --IV
+            byte[] iv = new byte[8]; //8 bytes for TripleDES --IV
             using (var rng = new RNGCryptoServiceProvider())
             {
                 rng.GetBytes(iv);
@@ -57,11 +57,10 @@ namespace NelbrizWeb_Api.Controllers
         [HttpPost("Decrypt")]
         public async Task<IActionResult> Decrypt([FromBody] byte[] ciphertext)
         {
-
             string keyString = "ThisIsASecretKey1234567890";
             byte[] key = GenerateKey(keyString);
 
-            string base64String = "E6bq398ehjA=";
+            string base64String = "E6bq398ehjA="; //This is just a test iv and key.You can generate yours with the methods below.
             byte[] iv = Convert.FromBase64String(base64String);
 
             string decrypted = Decrypt(ciphertext, key, iv);

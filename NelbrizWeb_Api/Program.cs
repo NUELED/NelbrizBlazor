@@ -11,6 +11,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using NelbrizWeb_Api.Logging;
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
+using NelbrizWeb_Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,68 +38,20 @@ builder.Host.UseSerilog();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDependencies(builder.Configuration);
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Nelbriz_Api", Version = "v1" });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please Bearer and then token in the field",
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                   {
-                     new OpenApiSecurityScheme
-                     {
-                       Reference = new OpenApiReference
-                       {
-                         Type = ReferenceType.SecurityScheme,
-                         Id = "Bearer"
-                       }
-                     },
-                      new string[] { }
-                   }
-    });
-});
-
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefConnect")));
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-var apiSettingsSection = builder.Configuration.GetSection("APISettings");
-builder.Services.Configure<APISettings>(apiSettingsSection);
-
-var appSetiings = apiSettingsSection.Get<APISettings>();
-var key = Encoding.ASCII.GetBytes(appSetiings.ValidKey);
-
-builder.Services.AddAuthentication(opt =>
-{
-    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.RequireHttpsMetadata = true;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new()
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidIssuer = appSetiings.ValidIssuer,
-        ValidAudience = appSetiings.ValidAudience,
-        ClockSkew = TimeSpan.Zero
-    };
-});
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<ILogging, Logging>(); // This is for the custom implementation!!
 builder.Services.AddCors(o => o.AddPolicy("Nelbriz", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
+
+builder.Services.AddHangfire((sp, config) =>
+{
+    var connectstring = sp.GetRequiredService<IConfiguration>().GetConnectionString("DefConnect");
+    config.UseSqlServerStorage(connectstring);
+});
+builder.Services.AddHangfireServer();
 
 var app = builder.Build();
 
@@ -112,6 +67,20 @@ app.UseCors("Nelbriz");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseHangfireDashboard("/jobs/dashboard", new DashboardOptions
+{
+    DashboardTitle = "Nelbriz Hangfire",
+    DarkModeEnabled = false,
+    DisplayStorageConnectionString = false,
+    Authorization = new[]
+    {
+         new HangfireCustomBasicAuthenticationFilter
+         {
+             User = "admin",
+             Pass = "admin123"
+         }
+    }
+});
 
 app.MapControllers();
 
