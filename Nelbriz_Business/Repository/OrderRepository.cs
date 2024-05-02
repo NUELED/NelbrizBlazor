@@ -30,7 +30,7 @@ namespace Nelbriz_Business.Repository
         {
             try
             {
-                var obj = _mapper.Map<OrderDTO, Order>(objDTO);
+                var obj = _mapper.Map<OrderDTO, OrderDto>(objDTO);
 
 
                 var addedObj = _db.OrderHeaders.Add(obj.OrderHeader);
@@ -77,7 +77,7 @@ namespace Nelbriz_Business.Repository
 
         public async Task<OrderDTO> Get(int id)
         {
-            Order order = new()
+            OrderDto order = new()
             {
                 OrderHeader = _db.OrderHeaders.FirstOrDefault( u => u.Id == id),    
                 OrderDetails =_db.OrderDetails.Where(u=> u.OrderHeaderId == id)
@@ -92,12 +92,12 @@ namespace Nelbriz_Business.Repository
         public async Task<IEnumerable<OrderDTO>> GetAll(string? userId = null, string? status = null)
         {
 
-            List<Order> OrderFromDb = new List<Order>();
+            List<OrderDto> OrderFromDb = new List<OrderDto>();
             IEnumerable<OrderHeader> orderHeaderList = _db.OrderHeaders;
             IEnumerable<OrderDetail> orderDetailList = _db.OrderDetails;
             foreach(OrderHeader header in orderHeaderList)
             {
-                Order order = new()
+                OrderDto order = new()
                 {
                     OrderHeader = header,
                     OrderDetails = orderDetailList.Where(u=> u.OrderHeaderId == header.Id)

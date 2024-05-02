@@ -19,7 +19,7 @@ namespace Nelbriz_Business.Mapper
             CreateMap<ProductPrice, ProductPriceDTO>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
             CreateMap<OrderHeader, OrderHeaderDTO>().ReverseMap();
-            CreateMap<OrderDTO, Order>().ReverseMap();
+            CreateMap<OrderDTO, OrderDto>().ReverseMap();
 
         }
     }

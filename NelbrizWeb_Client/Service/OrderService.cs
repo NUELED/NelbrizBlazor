@@ -2,6 +2,8 @@
 using NelbrizWeb_Client.Service.IService;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace NelbrizWeb_Client.Service
 {
@@ -18,6 +20,24 @@ namespace NelbrizWeb_Client.Service
             _configuration = configuration;
             BaseServerUrl = _configuration.GetSection("BaseServerUrl").Value;
         }
+
+        public async Task<OrderDTO> Create(StripePaymentDTO paymentDTO)
+        {
+            var content = JsonConvert.SerializeObject(paymentDTO);
+            //You can decide to encrypt the content if you so wish, if it is not HTTPS!
+            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("api/order/create", bodyContent);
+
+            var responseResult = response.Content.ReadAsStringAsync().Result;
+            if(response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<OrderDTO>(responseResult);
+                return result;
+            }
+
+            return new OrderDTO();
+        }
+
         public async Task<OrderDTO> Get(string? orderHeaderId)
         {
             var response = await _httpClient.GetAsync($"/api/order/{orderHeaderId}");

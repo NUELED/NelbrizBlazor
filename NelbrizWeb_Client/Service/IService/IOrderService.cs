@@ -6,5 +6,7 @@ namespace NelbrizWeb_Client.Service.IService
     {
         public Task<IEnumerable<OrderDTO>> GetAll(string? userId);
         public Task<OrderDTO> Get(string? orderId);
+
+        public Task<OrderDTO> Create(StripePaymentDTO paymentDTO); 
     }
 }

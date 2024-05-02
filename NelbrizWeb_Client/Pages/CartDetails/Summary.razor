@@ -2,7 +2,9 @@
 @using Microsoft.AspNetCore.Authorization;
 @inject IJSRuntime _jsRuntime
 @inject ILocalStorageService _localStorage
+@inject IOrderService _orderService
 @inject IProductService _productService
+@inject IPaymentService _paymentService
 @attribute [Authorize]
 
 
@@ -152,7 +154,7 @@ else
         if (await _localStorage.GetItemAsync<UserDTO>(SD.Local_UserDetails) != null)
         {
             var userInfo = await _localStorage.GetItemAsync<UserDTO>(SD.Local_UserDetails);
-           // Order.OrderHeader.UserId = userInfo.Id;   //________________------i need to fix this.
+            // Order.OrderHeader.UserId = userInfo.Id;   //________________------i need to fix this.
             Order.OrderHeader.Name = userInfo.Name;
             Order.OrderHeader.Email = userInfo.Email;
             Order.OrderHeader.PhoneNumber = userInfo.PhoneNumber;
@@ -164,6 +166,27 @@ else
 
     private async Task HandleChechout()
     {
+        try
+        {
+            var paymentDto = new StripePaymentDTO()
+                {
+                    Order = Order
+                };
+            var result = await _paymentService.Checkout(paymentDto);
+
+            Order.OrderHeader.SessionId = result.Data.ToString();
+
+            var orderDTOSaved = await _orderService.Create(paymentDto);
+
+            await _jsRuntime.InvokeVoidAsync("redirectToCheckout", result.Data.ToString());
+        }
+        catch (Exception e)
+        {
+
+            await _jsRuntime.ToastrError(e.Message);
+        }
 
     }
+
+
 }

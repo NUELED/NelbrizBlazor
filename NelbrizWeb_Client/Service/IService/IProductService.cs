@@ -8,3 +8,4 @@ namespace NelbrizWeb_Client.Service.IService
         public Task<ProductDTO> Get(int productId);
     }
 }
+;

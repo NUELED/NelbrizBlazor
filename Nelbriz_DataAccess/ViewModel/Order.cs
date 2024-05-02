@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nelbriz_DataAccess.ViewModel
 {
-    public class Order
+    public class OrderDto
     {
         public OrderHeader OrderHeader { get; set; }
         public IEnumerable<OrderDetail> OrderDetails { get; set; }

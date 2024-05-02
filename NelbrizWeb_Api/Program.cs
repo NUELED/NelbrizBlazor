@@ -14,6 +14,8 @@ using NelbrizWeb_Api.Logging;
 using Hangfire;
 using HangfireBasicAuthenticationFilter;
 using NelbrizWeb_Api;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
+    .MinimumLevel.Information()
     .WriteTo.Console() // Log to console
     .WriteTo.File("logs/nelbrizlogs.txt", rollingInterval: RollingInterval.Day) // Log to file
     .CreateLogger();
@@ -43,17 +45,25 @@ builder.Services.AddDependencies(builder.Configuration);
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<ILogging, Logging>(); // This is for the custom implementation!!
 builder.Services.AddCors(o => o.AddPolicy("Nelbriz", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
-
-builder.Services.AddHangfire((sp, config) =>
+builder.Services.AddMemoryCache(opt =>
 {
-    var connectstring = sp.GetRequiredService<IConfiguration>().GetConnectionString("DefConnect");
-    config.UseSqlServerStorage(connectstring);
+    opt.SizeLimit = 1024;
 });
-builder.Services.AddHangfireServer();
+
+
+//builder.Services.AddHangfire((sp, config) =>
+//{
+//    var connectstring = sp.GetRequiredService<IConfiguration>().GetConnectionString("DefConnect");
+//    config.UseSqlServerStorage(connectstring);
+//});
+//builder.Services.AddHangfireServer();
 
 var app = builder.Build();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["ApiKey"];
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -67,20 +77,20 @@ app.UseCors("Nelbriz");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHangfireDashboard("/jobs/dashboard", new DashboardOptions
-{
-    DashboardTitle = "Nelbriz Hangfire",
-    DarkModeEnabled = false,
-    DisplayStorageConnectionString = false,
-    Authorization = new[]
-    {
-         new HangfireCustomBasicAuthenticationFilter
-         {
-             User = "admin",
-             Pass = "admin123"
-         }
-    }
-});
+//app.UseHangfireDashboard("/jobs/dashboard", new DashboardOptions
+//{
+//    DashboardTitle = "Nelbriz Hangfire",
+//    DarkModeEnabled = false,
+//    DisplayStorageConnectionString = false,
+//    Authorization = new[]
+//    {
+//         new HangfireCustomBasicAuthenticationFilter
+//         {
+//             User = "admin",
+//             Pass = "admin123"
+//         }
+//    }
+//});
 
 app.MapControllers();
 
