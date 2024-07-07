@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using MimeKit.Cryptography;
 using Nelbriz_Business.Repository.IRepository;
 using Nelbriz_DataAccess.ViewModel;
 using Nelbriz_Models;
+using Stripe.Checkout;
 using System.Diagnostics.Eventing.Reader;
 
 namespace NelbrizWeb_Api.Controllers
@@ -62,6 +64,28 @@ namespace NelbrizWeb_Api.Controllers
             paymentDTO.Order.OrderHeader.OrderDate = DateTime.Now;
             var result = await _orderRepository.Create(paymentDTO.Order);
             return Ok(result);
+        }
+
+      
+
+        [HttpPost]
+        [ActionName("paymentsuccessful")]
+        public async Task<IActionResult> PaymentSuccessful([FromBody] OrderHeaderDTO orderHeaderDTO)
+        {
+            var service = new SessionService();
+            var sessionDetails = service.Get(orderHeaderDTO.SessionId); 
+            if (sessionDetails.PaymentStatus=="paid")
+            {
+                var result = _orderRepository.MarkPaymentSuccessfull(orderHeaderDTO.Id);
+                if (result == null)
+                {
+                    return BadRequest(new ErrorModelDTO()
+                    {
+                        ErrorMessage = "Can not mark payment as successfull"
+                    }); ;
+                }
+            }
+            return BadRequest();
         }
 
 

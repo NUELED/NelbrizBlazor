@@ -149,7 +149,7 @@ else
                     Product = product
                 };
             Order.OrderDetails.Add(orderDetailDTO);
-            Order.OrderHeader.OrderTotal += (cart.Count * productPrice.Price);
+            Order.OrderHeader.OrderTotal += (item.Count * productPrice.Price);
         }
         if (await _localStorage.GetItemAsync<UserDTO>(SD.Local_UserDetails) != null)
         {
@@ -168,6 +168,7 @@ else
     {
         try
         {
+            IsProcessing = true;
             var paymentDto = new StripePaymentDTO()
                 {
                     Order = Order
@@ -177,6 +178,8 @@ else
             Order.OrderHeader.SessionId = result.Data.ToString();
 
             var orderDTOSaved = await _orderService.Create(paymentDto);
+
+            await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDTOSaved);
 
             await _jsRuntime.InvokeVoidAsync("redirectToCheckout", result.Data.ToString());
         }

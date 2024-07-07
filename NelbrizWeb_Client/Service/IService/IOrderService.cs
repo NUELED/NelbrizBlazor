@@ -8,5 +8,7 @@ namespace NelbrizWeb_Client.Service.IService
         public Task<OrderDTO> Get(string? orderId);
 
         public Task<OrderDTO> Create(StripePaymentDTO paymentDTO); 
+
+        public Task<OrderHeaderDTO> MarkPaymentSuccessful(OrderHeaderDTO orderHeader); 
     }
 }
