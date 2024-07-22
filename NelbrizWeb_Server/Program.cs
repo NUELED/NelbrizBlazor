@@ -11,6 +11,7 @@ using Syncfusion.Blazor;
 using Microsoft.AspNetCore.Identity;
 
 
+
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzA2ODkyNUAzMjM0MmUzMDJlMzBkdTltV2xMUGpXTzl1Q2xPcHVFSzF4VDRRV0xjT0lSclREQ1ZyUnhuVmtVPQ==");
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
 builder.Services.AddScoped<IFileUpload, FileUpload>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
