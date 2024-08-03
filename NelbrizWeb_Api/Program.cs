@@ -78,6 +78,7 @@ app.UseCors("Nelbriz");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 //app.UseHangfireDashboard("/jobs/dashboard", new DashboardOptions
 //{
 //    DashboardTitle = "Nelbriz Hangfire",

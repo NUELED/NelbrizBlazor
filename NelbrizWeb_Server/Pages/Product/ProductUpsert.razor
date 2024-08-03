@@ -143,6 +143,36 @@
     }
 
 
+    // private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    // {
+    //     IsLoading = true;
+    //     try
+    //     {
+    //         if (e.GetMultipleFiles().Count > 0)
+    //         {
+    //             foreach(var file in e.GetMultipleFiles())
+    //             {
+    //                 // FileInfo fileInfo = new(file.Name);
+    //                 // if (fileInfo.Extension .ToLower() == ".jpg" || fileInfo.Extension.ToLower() == ".png" || fileInfo.Extension.ToLower() == ".jpeg")
+    //                 // {
+    //                 //     Product.ImageUrl = await _fileUpload.UploadFile(file);
+    //                 // }
+    //                 // else
+    //                 // {
+    //                 //     await _jsRuntime.ToastrError("Please select .jpg/ .jpeg/ .png/ file only");
+    //                 // }
+    //             }
+    //         }
+    //         IsLoading = false;
+    //     }
+    //     catch (Exception ex)
+    //     {
+
+    //         await _jsRuntime.ToastrError(ex.Message);
+    //     }
+    // }
+
+
     private async Task HandleImageUpload(InputFileChangeEventArgs e)
     {
         IsLoading = true;
@@ -150,10 +180,12 @@
         {
             if (e.GetMultipleFiles().Count > 0)
             {
-                foreach(var file in e.GetMultipleFiles())
+                foreach (var file in e.GetMultipleFiles())
                 {
-                    FileInfo fileInfo = new(file.Name);
-                    if (fileInfo.Extension.ToLower() == ".jpg" || fileInfo.Extension.ToLower() == ".png" || fileInfo.Extension.ToLower() == ".jpeg")
+                    var fileName = file.Name;
+                    var fileExtension = Path.GetExtension(fileName).ToLower();
+
+                    if (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension == ".jpeg")
                     {
                         Product.ImageUrl = await _fileUpload.UploadFile(file);
                     }
@@ -167,8 +199,8 @@
         }
         catch (Exception ex)
         {
-
             await _jsRuntime.ToastrError(ex.Message);
         }
     }
+
 }
