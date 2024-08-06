@@ -8,14 +8,15 @@
 
     @if(OrderHeaders.Any()){ 
     <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        Data="@OrderHeaders" TItem="OrderHeaderDTO" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
+                        Data="@OrderHeaders" TItem="OrderHeaderDTO" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
         <Columns>
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="80px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.Name)" Title="Name" Width="160px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.PhoneNumber)" Title="Phone Number"  Width="160px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.Email)" Title="Email"  Width="160px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.OrderTotal)" Title="Order Total"  Width="160px" />
-                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.OrderDate)" Title="Order Date" FormatString="{0:d}" Width="160px" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.Id)" Filterable="false" Title="ID" Frozen="true" />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.Name)" Title="Name"  />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.PhoneNumber)" Title="Phone Number"  />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.Email)" Title="Email"   />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.OrderTotal)" Title="Order Total"  />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.OrderDate)" Title="Order Date" FormatString="{0:d}"  />
+                <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="@nameof(OrderHeaderDTO.Status)" Title="Status" />
 
                 <RadzenDataGridColumn TItem="OrderHeaderDTO" Title="Details" Width="100px">
                     <Template Context="data">

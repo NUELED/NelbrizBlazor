@@ -33,7 +33,8 @@ namespace NelbrizWeb_Api.Controllers
         }
 
 
-        [HttpGet("{productId}")]
+       // [HttpGet("{productId}")]
+        [HttpGet("{orderHeaderId}")]
         public async Task<IActionResult> Get(int? orderHeaderId)
         {
             if (orderHeaderId == null || orderHeaderId == 0)

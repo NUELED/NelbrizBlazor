@@ -80,11 +80,11 @@ namespace Nelbriz_Business.Repository
             OrderDto order = new()
             {
                 OrderHeader = _db.OrderHeaders.FirstOrDefault( u => u.Id == id),    
-                OrderDetails =_db.OrderDetails.Where(u=> u.OrderHeaderId == id)
+                OrderDetails =_db.OrderDetails.Where(u=> u.OrderHeaderId == id).ToList()
             };
             if(order != null)
             {
-                _mapper.Map<OrderDTO>(order);
+              return  _mapper.Map<OrderDTO>(order);
             }
             return new OrderDTO();
         }
@@ -131,15 +131,36 @@ namespace Nelbriz_Business.Repository
 
         public async Task<OrderHeaderDTO> UpdateHeader(OrderHeaderDTO objDTO)
         {
-            if(objDTO != null)
+            if (objDTO != null)
             {
-                var OrderHeader = _mapper.Map<OrderHeader>(objDTO);
-                 _db.OrderHeaders.Update(OrderHeader);    
-                await _db.SaveChangesAsync();
-                return _mapper.Map<OrderHeaderDTO>(OrderHeader);
+                var orderHeaderFromDb = await _db.OrderHeaders.FirstOrDefaultAsync(u => u.Id == objDTO.Id);
+
+                if (orderHeaderFromDb != null)
+                {
+                    orderHeaderFromDb.Name = objDTO.Name;
+                    orderHeaderFromDb.PhoneNumber = objDTO.PhoneNumber;
+                    orderHeaderFromDb.Carrier = objDTO.Carrier;
+                    orderHeaderFromDb.Tracking = objDTO.Tracking;
+                    orderHeaderFromDb.StreetAddress = objDTO.StreetAddress;
+                    orderHeaderFromDb.City = objDTO.City;
+                    orderHeaderFromDb.State = objDTO.State;
+                    orderHeaderFromDb.PostalCode = objDTO.PostalCode;
+                    orderHeaderFromDb.Status = objDTO.Status;
+
+                    try
+                    {
+                         _db.SaveChanges();
+                        return _mapper.Map<OrderHeaderDTO>(orderHeaderFromDb);
+                    }
+                    catch (Exception ex)
+                    {                     
+                        throw; // or return null/error DTO
+                    }
+                }
             }
             return new OrderHeaderDTO();
         }
+
 
         public async Task<bool> UpdateOrderStatus(int orderId, string status)
         {
