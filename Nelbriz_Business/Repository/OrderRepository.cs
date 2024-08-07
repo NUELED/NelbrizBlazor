@@ -6,6 +6,7 @@ using Nelbriz_DataAccess;
 using Nelbriz_DataAccess.Data;
 using Nelbriz_DataAccess.ViewModel;
 using Nelbriz_Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,35 @@ namespace Nelbriz_Business.Repository
             _mapper = mapper;   
         }
 
+        public async Task<OrderHeaderDTO> CancelOrder(int id)
+        {
+            var orderHeader = await _db.OrderHeaders.FindAsync(id);
+            if (orderHeader == null)
+            {
+                return new OrderHeaderDTO();
+            }
+            if(orderHeader.Status == SD.Status_Pending)
+            {
+                orderHeader.Status = SD.Status_Cancelled;
+                 _db.SaveChanges();   
+            }
+            if (orderHeader.Status == SD.Status_Confirmed)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Reason = RefundReasons.RequestedByCustomer,
+                    PaymentIntent = orderHeader.PaymentIntentId
+                };
+
+                var service = new RefundService();
+                Refund refund =  service.Create(options);
+
+                orderHeader.Status = SD.Status_Refunded;
+                 _db.SaveChanges();
+            }
+
+            return _mapper.Map<OrderHeaderDTO>(orderHeader);   
+        }
 
         public async Task<OrderDTO> Create(OrderDTO objDTO)
         {
@@ -111,7 +141,7 @@ namespace Nelbriz_Business.Repository
             
         }
 
-        public async Task<OrderHeaderDTO> MarkPaymentSuccessfull(int id)
+        public async Task<OrderHeaderDTO> MarkPaymentSuccessfull(int id, string paymentIntentId )
         {
              var data = await _db.OrderHeaders.FindAsync(id);   
              if(data != null)
@@ -120,6 +150,7 @@ namespace Nelbriz_Business.Repository
              }
            if(data.Status == SD.Status_Pending) 
             {
+                data.PaymentIntentId = paymentIntentId; 
                 data.Status = SD.Status_Confirmed;
                 await _db.SaveChangesAsync();
                 return _mapper.Map<OrderHeaderDTO>(data);

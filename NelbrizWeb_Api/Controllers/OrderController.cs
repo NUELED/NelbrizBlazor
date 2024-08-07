@@ -77,7 +77,7 @@ namespace NelbrizWeb_Api.Controllers
             var sessionDetails = service.Get(orderHeaderDTO.SessionId); 
             if (sessionDetails.PaymentStatus=="paid")
             {
-                var result = _orderRepository.MarkPaymentSuccessfull(orderHeaderDTO.Id);
+                var result = _orderRepository.MarkPaymentSuccessfull(orderHeaderDTO.Id, sessionDetails.PaymentIntentId);
                 if (result == null)
                 {
                     return BadRequest(new ErrorModelDTO()
